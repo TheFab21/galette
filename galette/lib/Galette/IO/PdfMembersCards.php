@@ -68,6 +68,14 @@ class PdfMembersCards extends Pdf
     protected float $wlogo;
     protected float $hlogo;
     protected string $logofile;
+    protected int $nb_char;
+	protected int $avg_ratio;
+	protected float $ratio;
+	protected float $wphoto;
+    protected float $hphoto;
+	protected string $adh_nbr;
+	protected float $cell_he;
+	protected int $ban_max_he;
 
     /**
      * Main constructor, set creator and author
