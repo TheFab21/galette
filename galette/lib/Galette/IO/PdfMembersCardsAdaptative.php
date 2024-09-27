@@ -52,6 +52,8 @@ class PdfMembersCardsAdaptative extends PdfMembersCards
 	protected string $adh_nbr;
 	protected float $cell_he;
 	protected int $ban_max_he;
+	protected float $email_y;
+	
     public function init(): void
     {
         parent::init();
@@ -83,6 +85,10 @@ class PdfMembersCardsAdaptative extends PdfMembersCards
                 $this->wlogo = $print_logo->getWidth() / 3.78;
             }
             $this->hlogo = round($this->wlogo / $this->ratio);
+		if ( $this->hlogo  > 0.45 * $this->he * 3.78 ) {
+				$this->hlogo = round(0.45 * $this->he,0,PHP_ROUND_HALF_DOWN);
+				 $this->wlogo = $print_logo->getWidth() / 3.78;
+			}
         }
     }
 
@@ -283,8 +289,12 @@ class PdfMembersCardsAdaptative extends PdfMembersCards
             );
             $this->setX($x0 + $this->wphoto + 2);
             $this->writeHTML('<strong>' . $email . '</strong>', false, false);
+	    $this->email_y = $this->getY();
 
             // Lower colored strip with long text
+		if ($this->wi < 73) {
+				$this->max_text_size_full =  $this->max_text_size_full - 4;
+			}
             $this->SetFont(self::FONT,'B');
 			 $this->fixSize(
                 $this->preferences->pref_card_strip,
@@ -292,9 +302,7 @@ class PdfMembersCardsAdaptative extends PdfMembersCards
                 12,
                 'B'
             );
-			if ($this->wi < 73) {
-				$this->SetFontSize(4.5);
-			}
+			
 					
 			$this->SetFontSize(round($this->FontSizePt,0,PHP_ROUND_HALF_DOWN));
     
@@ -307,6 +315,12 @@ class PdfMembersCardsAdaptative extends PdfMembersCards
            $this->cell_he = ($this->he - round($this->hphoto)-2);
 			if ( $this->cell_he >=$this->ban_max_he) {
 				$this->cell_he = $this->ban_max_he ;
+			}
+			if ($y0 + $this->he - $this->cell_he -2.5 <= $this->email_y) {
+			$this->cell_he =  $this->he - $this->email_y  ;
+			}
+			if ( $this->cell_he < $this->FontSize ) {
+				$this->SetFontsize(round($this->FontSize,0,PHP_ROUND_HALF_DOWN));
 			}
 			
             $this->SetXY($x0, $y0 + $this->he - $this->cell_he);
