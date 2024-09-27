@@ -36,13 +36,7 @@ use Galette\Repository\Members;
  * @author Johan Cwiklinski <johan@x-tnd.be>
  * @author Fabrice Santoni <fabrice@santoni.ch>
  */
-protected int $avg_ratio;
-protected float $ratio;
-protected float $wphoto;
-protected float $hphoto;
-protected string $adh_nbr;
-protected float $cell_he;
-protected int $ban_max_he;
+
 
 class PdfMembersCardsAdaptative extends PdfMembersCards
 {
@@ -51,6 +45,13 @@ class PdfMembersCardsAdaptative extends PdfMembersCards
      *
      * @return void
      */
+	protected int $avg_ratio;
+	protected float $ratio;
+	protected float $wphoto;
+	protected float $hphoto;
+	protected string $adh_nbr;
+	protected float $cell_he;
+	protected int $ban_max_he;
     public function init(): void
     {
         parent::init();
